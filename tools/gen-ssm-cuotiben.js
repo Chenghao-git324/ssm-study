@@ -114,6 +114,37 @@ const ENTRIES = [
       { t: "p", label: "一句话记", text: "XML 不合法 → 解析器炸；XML 合法但依赖缺失 → 容器装配时炸。两种错，两层原因。" },
     ],
   },
+  {
+    no: "007",
+    date: "2026-11-11",
+    cat: "Spring 核心",
+    title: "静态工厂方法忘了写 static：No matching factory method",
+    kind: "踩坑",
+    blocks: [
+      { t: "p", label: "问题", text: "beans.xml 配了 factory-method=\"getBookDao\"，运行却报 No matching factory method found on class [...BookDaoFactory]: factory method 'getBookDao()'. Check that a method with the specified name exists and that it is static." },
+      { t: "p", label: "现象", text: "BeanCreationException: Error creating bean with name 'bookDao' ... No matching factory method found ... Check that a method with the specified name exists and that it is static." },
+      { t: "p", label: "根因", text: "XML 里的 class + factory-method 表示「调用这个类的静态方法」。Spring 不会 new 一个工厂对象，而是直接 BookDaoFactory.getBookDao()。方法少了 static，就是实例方法，类上根本没有这个静态方法 → 找不到。" },
+      { t: "p", label: "解决", text: "在方法签名上加 static：public static BookDao getBookDao() { ... }。" },
+      { t: "p", label: "相关", text: "如果确实想用实例方法，就要用「实例工厂」写法：先声明工厂 bean <bean id=\"bookDaoFactory\" class=\"...BookDaoFactory\"/>，再 <bean id=\"bookDao\" factory-bean=\"bookDaoFactory\" factory-method=\"getBookDao\"/>。这是不同模式，不是错误。" },
+      { t: "p", label: "教训", text: "报错最后一句 Check that a method with the specified name exists and that it is static 就是答案。先读最后一句，再看堆栈。" },
+      { t: "p", label: "一句话记", text: "class + factory-method = 静态工厂，方法必须 static；实例方法要用 factory-bean。" },
+    ],
+  },
+  {
+    no: "008",
+    date: "2026-11-11",
+    cat: "Spring 核心",
+    title: "加了 static 之后两个对象相等？不是 static 的功劳，是 scope",
+    kind: "答疑",
+    blocks: [
+      { t: "p", label: "问题", text: "为什么静态工厂方法加了 static 之后，两次 getBean(\"bookDao\") 拿到的是同一个对象？" },
+      { t: "p", label: "是什么", text: "两个维度别混：factory-method / static 决定「怎么造对象」，scope 决定「造几个对象」。两次相等是因为 scope 默认是 singleton，和 static 没关系。" },
+      { t: "p", label: "机制", text: "单例：第一次 getBean(\"bookDao\") 时创建对象并放进容器的 Map；第二次直接返回 Map 里缓存的那个，工厂方法只被调用一次。多例：每次 getBean 都重新调用工厂，返回新对象。" },
+      { t: "p", label: "对照", text: "之前用构造方法创建时，两次 getBean 也是 true——那时根本没有 static。现在给 bookDao 加 scope=\"prototype\"，即使工厂方法是 static，两次也会变成 false，而且工厂会打印多次。这证明数量由 scope 决定。" },
+      { t: "p", label: "陷阱", text: "不要把「静态」理解成「单例」。static 是 Java 语言层面「方法属于类、不需要对象」；scope 是 Spring 层面「容器里存几个实例」，两者互不相干。" },
+      { t: "p", label: "一句话记", text: "static 管怎么造，scope 管造几个；相等是单例的功劳，不是 static 的功劳。" },
+    ],
+  },
 ];
 
 ENTRIES.sort((a, b) => a.no.localeCompare(b.no));

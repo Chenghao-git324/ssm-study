@@ -5,6 +5,8 @@
        http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- 1. 让 Spring 创建 BookDaoImpl 的实例，存进容器，名字叫 bookDao -->
+    <bean id="bookDao" class="com.itheima.dao.impl.BookDaoImpl"
+          init-method="init" destroy-method="destroy" />
 
 
     <!-- 2. 让 Spring 创建 BookServiceImpl 的实例 -->
