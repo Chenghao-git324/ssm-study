@@ -1,18 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-       http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd">
+
 
     <!-- 1. 让 Spring 创建 BookDaoImpl 的实例，存进容器，名字叫 bookDao -->
     <bean id="bookDao" class="com.itheima.dao.impl.BookDaoImpl"
-          init-method="init" destroy-method="destroy" />
+          init-method="init" destroy-method="destroy"/>
 
-
-    <!-- 2. 让 Spring 创建 BookServiceImpl 的实例 -->
     <bean id="bookService" class="com.itheima.service.impl.BookServiceImpl">
-        <!-- 3. 调用 setBookDao(bookDao)，把上面那个 bean 塞进去 -->
         <property name="bookDao" ref="bookDao"/>
     </bean>
+
+    <bean id="collectionBean" class="com.itheima.collection.CollectionBean">
+        <property name="list">
+            <list>
+                <value>aaa</value>
+                <value>bbb</value>
+            </list>
+        </property>
+
+        <property name="map">
+            <map>
+                <entry key="a" value="1"/>
+                <entry key="b" value="2"/>
+            </map>
+        </property>
+
+        <property name="properties">
+            <props>
+                <prop key="p1">v1</prop>
+                <prop key="p2">v2</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+
+
+    <context:property-placeholder location="classpath:jdbc.properties"/>
 
 </beans>

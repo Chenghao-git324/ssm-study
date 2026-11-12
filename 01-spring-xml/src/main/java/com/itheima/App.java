@@ -1,10 +1,13 @@
 package com.itheima;
 
 import com.itheima.dao.BookDao;
-
+import com.itheima.collection.CollectionBean;
 import com.itheima.service.BookService;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 public class App {
 
@@ -21,10 +24,16 @@ public class App {
         System.out.println("两次拿到的是同一个对象吗？" + (bookDao1 == bookDao2));
 
 
-       // Object product = ctx.getBean("bookDao");
-        //Object factory = ctx.getBean("&bookDao");
-       // System.out.println("bookDao 实际类型：" + product.getClass().getName());
-        //System.out.println("&bookDao 实际类型：" + factory.getClass().getName());
+        CollectionBean collectionBean = (CollectionBean) ctx.getBean("collectionBean");
+        collectionBean.print();
+
+
+        DataSource dataSource = (DataSource) ctx.getBean("dataSource");
+        try (Connection conn = dataSource.getConnection()) {
+            System.out.println("数据库连接成功：" + conn);
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         // 3. 调用
         bookService.save();
