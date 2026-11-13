@@ -39,8 +39,45 @@
             <version>1.3.2</version>
         </dependency>
 
+        <!-- ① MyBatis 核心：SqlSessionFactory、Mapper、SQL 解析 -->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>3.5.19</version>
+        </dependency>
+
+        <!-- ② MyBatis 和 Spring 的桥：SqlSessionFactoryBean、@MapperScan -->
+        <!--    注意：Spring 5 用 2.x；3.x 是给 Spring 6 的 -->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-spring</artifactId>
+            <version>2.1.2</version>
+        </dependency>
+
+        <!-- ③ Spring 的 JDBC/事务支持：DataSourceTransactionManager、JdbcTemplate -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>5.3.39</version>
+        </dependency>
+
+        <!-- ④ Spring 测试支持：@ExtendWith(SpringExtension.class)、@ContextConfiguration -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>5.3.39</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- ⑤ JUnit 5：@Test，只在测试时用 -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.10.3</version>
+            <scope>test</scope>
+        </dependency>
+
+
     </dependencies>
-
-
 
 </project>
