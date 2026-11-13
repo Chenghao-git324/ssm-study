@@ -145,6 +145,28 @@ const ENTRIES = [
       { t: "p", label: "一句话记", text: "static 管怎么造，scope 管造几个；相等是单例的功劳，不是 static 的功劳。" },
     ],
   },
+  {
+    no: "009",
+    date: "2026-11-13",
+    cat: "Spring 核心",
+    title: "AOP 切入点表达式通配符速查",
+    kind: "速查",
+    blocks: [
+      { t: "p", label: "问题", text: "execution 表达式怎么写？各个通配符是什么意思？" },
+      { t: "p", label: "是什么", text: "execution(返回值类型 包名.类名.方法名(参数类型))，四段缺一不可。" },
+      { t: "code", text: "execution(* com.itheima.service.BookService.*(..))   // BookService 所有方法\nexecution(* com.itheima.service..*.*(..))            // service 及子包所有方法\nexecution(* find*(..))                               // 所有以 find 开头的方法\nexecution(* com.itheima.service.*.save(..))          // service 包下所有类的 save 方法" },
+      { t: "ul", items: [
+        "* —— 任意（返回值 / 类名 / 方法名）",
+        ".. —— 包路径：当前包及子包；参数：任意个参数",
+        "() —— 无参",
+        "(..) —— 任意参数",
+        "(*) —— 一个任意类型参数",
+        "(Integer, *) —— 两个参数：第一个 Integer，第二个任意",
+      ] },
+      { t: "p", label: "陷阱", text: "四段缺一不可：返回值、包.类、方法名、参数。类名和方法名之间是一个点，别漏；括号必须是英文 ( )；BookService* 不是合法的类名通配，要写 BookService.*(..)。" },
+      { t: "p", label: "一句话记", text: "返回值 包.类.方法(参数)；* 表示任意，.. 表示任意个/子包。" },
+    ],
+  },
 ];
 
 ENTRIES.sort((a, b) => a.no.localeCompare(b.no));

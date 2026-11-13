@@ -11,7 +11,8 @@ import java.util.Arrays;
 @Component
 public class MyAdvice {
 
-    @Pointcut("execution(void com.itheima.service.BookService.save())")
+    @Pointcut("execution(* com.itheima.service.*.save(..))")
+
     public void pt() {
     }
 
