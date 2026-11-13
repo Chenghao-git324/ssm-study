@@ -19,5 +19,24 @@ public class BookServiceImpl implements BookService {
     public void save() {
         System.out.println("book service save ...");
         bookDao.save();
+
+        try {
+            Thread.sleep(100);   // ← 模拟业务耗时 100ms，方便看出统计效果
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public String findName(Integer id) {
+        System.out.println("book service findName ...");
+        return "book"+id;
+    }
+
+    @Override
+    public String login(String username, String password) {
+        System.out.println("登录：username=" + username + "，password=[" + password + "]");
+
+        return "login-ok";
     }
 }
