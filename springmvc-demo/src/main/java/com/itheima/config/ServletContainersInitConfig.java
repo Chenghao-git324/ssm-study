@@ -10,8 +10,9 @@ public class ServletContainersInitConfig
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[]{SpringConfig.class};
+        return new Class[]{SpringConfig.class, MyBatisConfig.class};
     }
+
 
 
     @Override
@@ -31,4 +32,6 @@ public class ServletContainersInitConfig
         filter.setForceEncoding(true);
         return new Filter[]{filter};
     }
+
+
 }

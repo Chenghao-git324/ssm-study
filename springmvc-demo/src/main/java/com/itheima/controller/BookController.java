@@ -1,11 +1,13 @@
 package com.itheima.controller;
 
+import com.itheima.domain.PageResult;
+import com.itheima.domain.Result;
 import com.itheima.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.itheima.domain.Book;
+import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -14,66 +16,41 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
-    @GetMapping("/book/save")
-    public String save() {
-        System.out.println("BookController.save() 执行了");
-        System.out.println("controller 里的 service hashCode = " + bookService.hashCode());
-        bookService.save();
-        return "save success";
+
+    @GetMapping("/books")
+    public Result<List<Book>> list() {
+        return Result.success(bookService.list());
     }
 
-    @GetMapping("/book/query")
-    public String query(String name, Integer age) {
-        System.out.println("name = " + name + ", age = " + age);
-        return "name = " + name + ", age = " + age;
+    @PostMapping("/books")
+    public Result<Void> add(@RequestBody Book book) {
+        bookService.add(book);
+        return Result.success();
     }
 
-    @GetMapping("/book/savePojo")
-    public String savePojo(Book book) {
-        System.out.println("book = " + book);
-        return book.toString();
+    @GetMapping("/books/{id}")
+    public Result<Book> getById(@PathVariable Integer id) {
+        return Result.success(bookService.getById(id));
     }
 
-    @GetMapping("/book/arrayParam")
-    public String arrayParam(Integer[] ids) {
-        System.out.println("ids = " + java.util.Arrays.toString(ids));
-        return java.util.Arrays.toString(ids);
+    @PutMapping("/books")
+    public Result<Void> update(@RequestBody Book book) {
+        bookService.update(book);
+        return Result.success();
     }
 
-    @GetMapping("/book/listParam")
-    public String listParam(@RequestParam List<Integer> ids) {
-        System.out.println("ids = " + ids);
-        return ids.toString();
+    @DeleteMapping("/books/{id}")
+    public Result<Void> delete(@PathVariable Integer id) {
+        bookService.delete(id);
+        return Result.success();
     }
 
-    @PostMapping("/book/json")
-    public String json(@RequestBody Book book) {
-        System.out.println("json book = " + book);
-        return book.toString();
+    @GetMapping("/books/page")
+    public Result<PageResult<Book>> page(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "2") int size) {
+        return Result.success(bookService.page(page, size));
     }
 
-    @GetMapping("/book/get")
-    public Book getBook() {
-        Book book = new Book();
-        book.setId(9);
-        book.setName("三体");
-        book.setPrice(45.5);
-        return book;
-    }
-
-    @GetMapping("/book/list")
-    public List<Book> list() {
-        Book b1 = new Book();
-        b1.setId(1);
-        b1.setName("三体");
-        b1.setPrice(45.5);
-
-        Book b2 = new Book();
-        b2.setId(2);
-        b2.setName("活着");
-        b2.setPrice(39.0);
-
-        return Arrays.asList(b1, b2);
-    }
 
 }

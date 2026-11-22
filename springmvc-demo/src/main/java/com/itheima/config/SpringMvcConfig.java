@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
-@ComponentScan("com.itheima.controller")
+@ComponentScan({"com.itheima.controller", "com.itheima.exception"})
 @Import(WebMvcConfig.class)
 @EnableWebMvc
 public class SpringMvcConfig {

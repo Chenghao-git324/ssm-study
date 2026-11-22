@@ -11,6 +11,11 @@ set "JAVA_HOME=C:\Users\ch2fx\.jdks\ms-17.0.20"
 set "TOMCAT_HOME=C:\Users\ch2fx\dev-tools\apache-tomcat-9.0.123"
 set "CATALINA_HOME=%TOMCAT_HOME%"
 
+rem Stop any Tomcat that is still running.
+rem Otherwise port 8081 stays busy and mvn clean cannot delete target\ files.
+call "%TOMCAT_HOME%\bin\shutdown.bat" >nul 2>&1
+timeout /t 5 /nobreak >nul
+
 cd /d "%~dp0..\springmvc-demo"
 if errorlevel 1 (
     echo [ERROR] springmvc-demo folder not found
