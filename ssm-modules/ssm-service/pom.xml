@@ -25,10 +25,11 @@
             <artifactId>spring-context</artifactId>
         </dependency>
 
-        <!-- PageHelper / PageInfo -->
+        <!-- PageHelper / PageInfo：optional = 只用在本模块内部，不传给下游 -->
         <dependency>
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper</artifactId>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 

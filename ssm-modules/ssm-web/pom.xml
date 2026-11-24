@@ -50,6 +50,13 @@
             <artifactId>jackson-databind</artifactId>
         </dependency>
 
+        <!-- MyBatisConfig 里注册 PageInterceptor 要用；
+             service 里已设为 optional，所以 web 必须自己声明 -->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper</artifactId>
+        </dependency>
+
         <!-- Tomcat 提供，不打进 war -->
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -59,6 +66,36 @@
 
     <build>
         <finalName>ssm-web</finalName>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <!-- 开启过滤：打包时把 ${} 替换成真实值 -->
+                <filtering>true</filtering>
+            </resource>
+        </resources>
     </build>
+
+
+    <profiles>
+        <!-- 默认激活：开发环境 -->
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <jdbc.db>ssm_db</jdbc.db>
+            </properties>
+        </profile>
+
+        <!-- 生产环境：mvn package -Pprod 才生效 -->
+        <profile>
+            <id>prod</id>
+            <properties>
+                <jdbc.db>ssm_db_prod</jdbc.db>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>
