@@ -36,7 +36,10 @@
     async function load(p) {
         if (p < 1) p = 1;
 
-        const res = await fetch(`/springmvc-demo/books/page?page=${p}&size=${SIZE}`);
+        const res = await fetch(`/springmvc-demo/books/page?page=${p}&size=${SIZE}`, {
+    headers: { 'token': 'itheima' }
+});
+
         const json = await res.json();
 
         if (json.code !== 1) {
