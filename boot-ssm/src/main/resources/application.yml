@@ -1,0 +1,21 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: boot-ssm
+  profiles:
+    active: dev
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: ${DB_PASSWORD}
+
+mybatis-plus:
+  # 以后要写自定义 SQL 时，XML 放 resources/mapper/ 下
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+  global-config:
+    db-config:
+      id-type: auto        # 主键自增（也可以在实体上写 @TableId(type = IdType.AUTO)）

@@ -1,0 +1,7 @@
+# yaml：用缩进表示层级，冒号后面必须有一个空格
+app:
+  name: from-yml
+  version: 1.0
+  author:
+    name: ch2fx
+    email: ch2fx@example.com
